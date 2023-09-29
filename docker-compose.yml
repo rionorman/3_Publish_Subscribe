@@ -78,17 +78,17 @@ services:
       - net_proto_3
 
   # micro integrator  
-  wso2mi_proto_3:
-    image: wso2/wso2mi:4.0.0-ubuntu
-    container_name: wso2mi_proto_3
-    # ports:
-    #   - "8290:8290"
-    #   - "8253:8253"
-    #   - "5005:5005"
-    volumes:
-      - ./wso2mi/carbonapps:/home/wso2carbon/wso2mi-4.0.0/repository/deployment/server/carbonapps
-    networks:
-      - net_proto_3
+  # wso2mi_proto_3:
+  #   image: wso2/wso2mi:4.0.0-ubuntu
+  #   container_name: wso2mi_proto_3
+  #   ports:
+  #     - "8290:8290"
+  #     - "8253:8253"
+  #     - "5005:5005"
+  #   volumes:
+  #     - ./wso2mi/carbonapps:/home/wso2carbon/wso2mi-4.0.0/repository/deployment/server/carbonapps
+  #   networks:
+  #     - net_proto_3
   
   # Message Broker Service
   rabbitmq_proto_3:
