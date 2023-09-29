@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+
+  # Web Server Service
+  nginx_proto_3:
+    image: nginx
+    container_name: nginx_proto_3
+    ports:
+      - "8005:8005"
+      - "8006:8006"
+      - "8007:8007"
+    volumes:
+      - ./src:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/sites-available/:/etc/nginx/sites-available/
+    depends_on:
+      - app_proto_3
+      - mysql_proto_3A
+      - mysql_proto_3B
+      - mysql_proto_3C
+    networks:
+      - net_proto_3
+
+  #Database Service
+  mysql_proto_3A:
+    image : mysql
+    container_name : mysql_proto_3A
+    volumes:
+      - ./mysql/data_3A:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: dikosongkan
+    networks:
+      - net_proto_3
+
+  mysql_proto_3B:
+    image : mysql
+    container_name : mysql_proto_3B
+    volumes:
+      - ./mysql/data_3B:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: dikosongkan
+    networks:
+      - net_proto_3
+  
+  mysql_proto_3C:
+    image : mysql
+    container_name : mysql_proto_3C
+    volumes:
+      - ./mysql/data_3C:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: dikosongkan
+    networks:
+      - net_proto_3
+  
+  app_proto_3:
+    container_name: app_proto_3
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www
+    working_dir: /var/www
+    networks:
+      - net_proto_3
+
+  # Adminer Service
+  adminer_proto_3:
+    image: adminer
+    container_name: adminer_proto_3
+    ports:
+      - "8083:8080"
+    depends_on:
+      - mysql_proto_3A
+      - mysql_proto_3B
+      - mysql_proto_3C
+    networks:
+      - net_proto_3
+
+  # micro integrator  
+  wso2mi_proto_3:
+    image: wso2/wso2mi:4.0.0-ubuntu
+    container_name: wso2mi_proto_3
+    # ports:
+    #   - "8290:8290"
+    #   - "8253:8253"
+    #   - "5005:5005"
+    volumes:
+      - ./wso2mi/carbonapps:/home/wso2carbon/wso2mi-4.0.0/repository/deployment/server/carbonapps
+    networks:
+      - net_proto_3
+  
+  # Message Broker Service
+  rabbitmq_proto_3:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_proto_3
+    ports:
+      - "15673:15672"
+      - "5673:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user_proto_3
+      RABBITMQ_DEFAULT_PASS: password_proto_3
+    networks:
+      - net_proto_3
+  
+# Network Service
+networks:
+  net_proto_3:
+    driver: "bridge"
+#   host:
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.30.0.0/16
