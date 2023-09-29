@@ -5,12 +5,15 @@ composer install
 php artisan key:generate
 sudo chown -R $USER:www-data storage
 sudo chown -R $USER:www-data bootstrap/cache
+sudo chown -R $USER:www-data public/images
 chmod -R 775 storage
 chmod -R 775 bootstrap/cache
+chmod -R 775 public/images
 npm install
 npm run dev
 npm run build
 php artisan migrate
+chmod -R 775 public/images
 
 Login
 ------------------------
