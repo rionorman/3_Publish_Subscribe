@@ -23,7 +23,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Auth::routes(['register' => true]);
+Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('category', CategoryController::class);
