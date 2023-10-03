@@ -1,7 +1,7 @@
 Clone Laravel
 ------------------------
 composer install
-.env.example .env
+cp .env.example .env
 php artisan key:generate
 sudo chown -R $USER:www-data storage
 sudo chown -R $USER:www-data bootstrap/cache
